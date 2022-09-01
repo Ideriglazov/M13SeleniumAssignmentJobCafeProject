@@ -11,6 +11,8 @@ public class BasePage {
     protected static WebDriver webDriver;
     protected static WebDriverWait wait;
 
+    public String LOGO = "//img[@src='assets/img/logo.png']";
+
     public void setWebDriver(WebDriver webDriver) {
         this.webDriver = webDriver;
         wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
