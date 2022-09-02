@@ -6,6 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
+
 import static org.openqa.selenium.support.locators.RelativeLocator.with;
 
 public class JobsPage extends BasePage{
@@ -15,6 +17,8 @@ public class JobsPage extends BasePage{
     public final String COMPANY_FIELD_XPATH = "//input[@name='company']";
     public final String DESCRIPTION_FIELD_XPATH = "//input[@name='description']";
     public final String SEARCH_BUTTON_XPATH = "//button[@class='search-butom'][contains(text(),'search')]";
+    public final String POSITION_TITLE_XPATH = "//h2[@class='post-item clearfix']";
+
 
 
 
@@ -36,6 +40,9 @@ public class JobsPage extends BasePage{
     @FindBy(xpath =  "//*[contains(text(), 'found')]")
     public WebElement FOUND_SPAN_WEBELEMENT;
 
+    @FindBy(xpath =  "//h2[@class='post-item clearfix']")
+    public List<WebElement> POSITION_TITLE_WEBELEMENT;
+
 
 
     public JobsPage() {
@@ -54,6 +61,27 @@ public class JobsPage extends BasePage{
         }
         else {
             return null;
+        }
+    }
+    public void positionSearch(String position){
+        POSITION_FIELD_WEBELEMENT.sendKeys(position);
+        SEARCH_BUTTON_WEBELEMENT.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(text(), 'found')]")));
+
+    }
+    public boolean isSearchResultContainsProvidedText(String searchedValue){
+        List<WebElement> list = webDriver.findElements(By.xpath("//h2[@class='post-item clearfix'][contains(text(),'" + searchedValue + "')]"));
+        for( WebElement item : list){
+
+            System.out.println(item.getText());
+
+            System.out.println("*********************************************************************");
+        }
+        if (list.size() < 10) {
+            return false;
+        }
+        else {
+            return true;
         }
     }
 }
