@@ -6,7 +6,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.openqa.selenium.support.locators.RelativeLocator.with;
 
@@ -70,12 +72,20 @@ public class JobsPage extends BasePage{
 
     }
     public boolean isSearchResultContainsProvidedText(String searchedValue){
-        List<WebElement> list = webDriver.findElements(By.xpath("//h2[@class='post-item clearfix'][contains(text(),'" + searchedValue + "')]"));
-        for( WebElement item : list){
-            System.out.println(item.getText());
+        searchedValue.toUpperCase();
+        ArrayList<String> incorrectSearchResults = new ArrayList<String>();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[@class='post-item clearfix'][contains(text(),'" + searchedValue + "')]")));
+        List<WebElement> searchResults = webDriver.findElements(By.xpath("//h2[@class='post-item clearfix']"));
+        for( WebElement item : searchResults){
+            String upperCaseItem = item.getText().toUpperCase();
+            if (!upperCaseItem.contains(searchedValue)) {
+                incorrectSearchResults.add(upperCaseItem);
+            }
         }
-
-        if (list.size() < 10) {
+        for (int i = 0;i<incorrectSearchResults.size();i++) {
+            System.out.println(incorrectSearchResults.get(i));
+        }
+        if (incorrectSearchResults.size() > 0) {
             return false;
         }
         else {
