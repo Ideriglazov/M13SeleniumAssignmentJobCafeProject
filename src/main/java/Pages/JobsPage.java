@@ -72,11 +72,9 @@ public class JobsPage extends BasePage{
     public boolean isSearchResultContainsProvidedText(String searchedValue){
         List<WebElement> list = webDriver.findElements(By.xpath("//h2[@class='post-item clearfix'][contains(text(),'" + searchedValue + "')]"));
         for( WebElement item : list){
-
             System.out.println(item.getText());
-
-            System.out.println("*********************************************************************");
         }
+
         if (list.size() < 10) {
             return false;
         }
