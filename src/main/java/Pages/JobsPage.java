@@ -20,6 +20,10 @@ public class JobsPage extends BasePage{
     public final String DESCRIPTION_FIELD_XPATH = "//input[@name='description']";
     public final String SEARCH_BUTTON_XPATH = "//button[@class='search-butom'][contains(text(),'search')]";
     public final String POSITION_TITLE_XPATH = "//h2[@class='post-item clearfix']";
+    public final String COMPANY_TITLE_XPATH = "//b";
+    public final String FOUND_SPAN_XPATH = "//*[contains(text(), 'found')]";
+    public final String NO_RESULTS_MESSAGE_XPATH = "//span[@class='boom']";
+    public final String RESET_BUTTON_XPATH = "//button[contains(text(), 'reset')]";
 
 
 
@@ -43,7 +47,16 @@ public class JobsPage extends BasePage{
     public WebElement FOUND_SPAN_WEBELEMENT;
 
     @FindBy(xpath =  "//h2[@class='post-item clearfix']")
-    public List<WebElement> POSITION_TITLE_WEBELEMENT;
+    public WebElement POSITION_TITLE_WEBELEMENT;
+
+    @FindBy(xpath = COMPANY_TITLE_XPATH)
+    public WebElement COMPANY_TITLE_WEBELEMENT;
+
+    @FindBy(xpath = NO_RESULTS_MESSAGE_XPATH)
+    public WebElement NO_RESULTS_MESSAGE_WEBELEMENT;
+
+    @FindBy(xpath = RESET_BUTTON_XPATH)
+    public WebElement RESET_BUTTON_WEBELEMENT;
 
 
 
@@ -53,43 +66,54 @@ public class JobsPage extends BasePage{
     public void navigateToJobsPage() {
         webDriver.get(JOBS_PAGE_URL);
     }
-    public WebElement locationSearch(String location){
-        POSITION_FIELD_WEBELEMENT.sendKeys(location);
+    public void elementSearch(String searchValue,WebElement field){
+        field.clear();
+        field.sendKeys(searchValue);
         SEARCH_BUTTON_WEBELEMENT.click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(text(), 'found')]")));
-        WebElement locationFound = webDriver.findElement(By.xpath("//*[contains(text(), "+location+")]"));
-        if (locationFound != null) {
-            return locationFound;
-        }
-        else {
-            return null;
-        }
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(FOUND_SPAN_XPATH)));
+        field.clear();
     }
-    public void positionSearch(String position){
-        POSITION_FIELD_WEBELEMENT.sendKeys(position);
-        SEARCH_BUTTON_WEBELEMENT.click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(text(), 'found')]")));
-
-    }
-    public boolean isSearchResultContainsProvidedText(String searchedValue){
+    public boolean isSearchResultContainsProvidedText(String searchedValue, String xpath){
         searchedValue.toUpperCase();
-        ArrayList<String> incorrectSearchResults = new ArrayList<String>();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[@class='post-item clearfix'][contains(text(),'" + searchedValue + "')]")));
-        List<WebElement> searchResults = webDriver.findElements(By.xpath("//h2[@class='post-item clearfix']"));
+        //ArrayList<String> incorrectSearchResults = new ArrayList<String>();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath +"[contains(text(),'" + searchedValue + "')]")));
+        List<WebElement> searchResults = webDriver.findElements(By.xpath(xpath));
         for( WebElement item : searchResults){
             String upperCaseItem = item.getText().toUpperCase();
             if (!upperCaseItem.contains(searchedValue)) {
-                incorrectSearchResults.add(upperCaseItem);
+                searchResults.remove(upperCaseItem);
             }
         }
-        for (int i = 0;i<incorrectSearchResults.size();i++) {
-            System.out.println(incorrectSearchResults.get(i));
+        /*
+        for( WebElement item : searchResults){
+            System.out.println(item.getText());
         }
-        if (incorrectSearchResults.size() > 0) {
-            return false;
-        }
-        else {
+         */
+        if (searchResults.size() > 0) {
             return true;
         }
+        else {
+            return false;
+        }
     }
+
+    public boolean isMessageDisplayed(WebElement element){
+        return element.isDisplayed();
+    }
+    public void resetButtonCheck() {
+        POSITION_FIELD_WEBELEMENT.clear();
+        LOCATION_FIELD_WEBELEMENT.clear();
+        COMPANY_FIELD_WEBELEMENT.clear();
+        DESCRIPTION_FIELD_WEBELEMENT.clear();
+        POSITION_FIELD_WEBELEMENT.sendKeys("1");
+        wait.until(ExpectedConditions.textToBePresentInElementValue(POSITION_FIELD_WEBELEMENT,"1"));
+        LOCATION_FIELD_WEBELEMENT.sendKeys("1");
+        wait.until(ExpectedConditions.textToBePresentInElementValue(LOCATION_FIELD_WEBELEMENT,"1"));
+        COMPANY_FIELD_WEBELEMENT.sendKeys("1");
+        wait.until(ExpectedConditions.textToBePresentInElementValue(POSITION_FIELD_WEBELEMENT,"1"));
+        DESCRIPTION_FIELD_WEBELEMENT.sendKeys("1");
+        wait.until(ExpectedConditions.textToBePresentInElementValue(POSITION_FIELD_WEBELEMENT,"1"));
+        RESET_BUTTON_WEBELEMENT.click();
+    }
+
 }
