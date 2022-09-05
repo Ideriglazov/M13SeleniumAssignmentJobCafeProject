@@ -17,11 +17,11 @@ public class UseCaseBase {
         webDriver = SharedDriver.getWebDriver(SharedDriver.Broswer.CHROME);
         page.setWebDriver(webDriver);
     }
-
+/*
     @AfterAll
     public static void tearDownMain() {
         SharedDriver.closeDriver();
         webDriver = null;
     }
-
+*/
 }

@@ -24,6 +24,7 @@ public class JobsPage extends BasePage{
     public final String FOUND_SPAN_XPATH = "//*[contains(text(), 'found')]";
     public final String NO_RESULTS_MESSAGE_XPATH = "//span[@class='boom']";
     public final String RESET_BUTTON_XPATH = "//button[contains(text(), 'reset')]";
+    public final String LOCATION_TITLE_XPATH = "//li[@class='entry-content']//span[2]";
 
 
 
@@ -74,9 +75,7 @@ public class JobsPage extends BasePage{
         field.clear();
     }
     public boolean isSearchResultContainsProvidedText(String searchedValue, String xpath){
-        searchedValue.toUpperCase();
-        //ArrayList<String> incorrectSearchResults = new ArrayList<String>();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath +"[contains(text(),'" + searchedValue + "')]")));
+        searchedValue = searchedValue.toUpperCase();
         List<WebElement> searchResults = webDriver.findElements(By.xpath(xpath));
         for( WebElement item : searchResults){
             String upperCaseItem = item.getText().toUpperCase();
@@ -84,11 +83,6 @@ public class JobsPage extends BasePage{
                 searchResults.remove(upperCaseItem);
             }
         }
-        /*
-        for( WebElement item : searchResults){
-            System.out.println(item.getText());
-        }
-         */
         if (searchResults.size() > 0) {
             return true;
         }
