@@ -32,42 +32,84 @@ public class JobsSearchTest extends UseCaseBase{
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_TITLE_XPATH)));
         assertTrue(jobsPage.isSearchResultContainsProvidedText("Toronto",jobsPage.LOCATION_TITLE_XPATH));
 
+        homePage.navigateToHomePage();
+        homePage.isComingSoonVisible();
+        jobsPage.navigateToJobsPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_FIELD_XPATH)));
         jobsPage.elementSearch("Tel-Aviv",jobsPage.LOCATION_FIELD_WEBELEMENT);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_TITLE_XPATH)));
         assertTrue(jobsPage.isSearchResultContainsProvidedText("Tel-Aviv", jobsPage.LOCATION_TITLE_XPATH));
 
+        homePage.navigateToHomePage();
+        homePage.isComingSoonVisible();
+        jobsPage.navigateToJobsPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_FIELD_XPATH)));
         jobsPage.elementSearch("Chicago",jobsPage.LOCATION_FIELD_WEBELEMENT);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_TITLE_XPATH)));
         assertTrue(jobsPage.isSearchResultContainsProvidedText("Chicago",jobsPage.LOCATION_TITLE_XPATH ));
 
+        homePage.navigateToHomePage();
+        homePage.isComingSoonVisible();
+        jobsPage.navigateToJobsPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_FIELD_XPATH)));
         jobsPage.elementSearch("New-York",jobsPage.LOCATION_FIELD_WEBELEMENT);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_TITLE_XPATH)));
         assertTrue(jobsPage.isSearchResultContainsProvidedText("New-York",jobsPage.LOCATION_TITLE_XPATH));
         //Position search
+        homePage.navigateToHomePage();
+        homePage.isComingSoonVisible();
+        jobsPage.navigateToJobsPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_FIELD_XPATH)));
         jobsPage.elementSearch("QA",jobsPage.POSITION_FIELD_WEBELEMENT);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.POSITION_TITLE_XPATH)));
         assertTrue(jobsPage.isSearchResultContainsProvidedText("QA",jobsPage.POSITION_TITLE_XPATH));
 
+        homePage.navigateToHomePage();
+        homePage.isComingSoonVisible();
+        jobsPage.navigateToJobsPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_FIELD_XPATH)));
         jobsPage.elementSearch("Developer",jobsPage.POSITION_FIELD_WEBELEMENT);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.POSITION_TITLE_XPATH)));
         assertTrue(jobsPage.isSearchResultContainsProvidedText("Developer",jobsPage.POSITION_TITLE_XPATH));
 
+        homePage.navigateToHomePage();
+        homePage.isComingSoonVisible();
+        jobsPage.navigateToJobsPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_FIELD_XPATH)));
         jobsPage.elementSearch("Project Manager",jobsPage.POSITION_FIELD_WEBELEMENT);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.POSITION_TITLE_XPATH)));
+        //wait.until(ExpectedConditions.textToBePresentInElement(jobsPage.POSITION_TITLE_WEBELEMENT,"Project Manager"));
         assertTrue(jobsPage.isSearchResultContainsProvidedText("Project Manager",jobsPage.POSITION_TITLE_XPATH));
         //Company search
+        homePage.navigateToHomePage();
+        homePage.isComingSoonVisible();
+        jobsPage.navigateToJobsPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_FIELD_XPATH)));
         jobsPage.elementSearch("Apple",jobsPage.COMPANY_FIELD_WEBELEMENT);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.COMPANY_TITLE_XPATH)));
+        //wait.until(ExpectedConditions.textToBePresentInElementValue(jobsPage.COMPANY_TITLE_WEBELEMENT,"Apple"));
         assertTrue(jobsPage.isSearchResultContainsProvidedText("Apple",jobsPage.COMPANY_TITLE_XPATH));
 
+        homePage.navigateToHomePage();
+        homePage.isComingSoonVisible();
+        jobsPage.navigateToJobsPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_FIELD_XPATH)));
         jobsPage.elementSearch("Facebook",jobsPage.COMPANY_FIELD_WEBELEMENT);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.COMPANY_TITLE_XPATH)));
         assertTrue(jobsPage.isSearchResultContainsProvidedText("Facebook",jobsPage.COMPANY_TITLE_XPATH));
 
+        homePage.navigateToHomePage();
+        homePage.isComingSoonVisible();
+        jobsPage.navigateToJobsPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_FIELD_XPATH)));
         jobsPage.elementSearch("Google",jobsPage.COMPANY_FIELD_WEBELEMENT);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.COMPANY_TITLE_XPATH)));
         assertTrue(jobsPage.isSearchResultContainsProvidedText("Google",jobsPage.COMPANY_TITLE_XPATH));
         //Combined search by position and company name without location
+        homePage.navigateToHomePage();
+        homePage.isComingSoonVisible();
+        jobsPage.navigateToJobsPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_FIELD_XPATH)));
         jobsPage.COMPANY_FIELD_WEBELEMENT.sendKeys("Google");
         jobsPage.POSITION_FIELD_WEBELEMENT.sendKeys("Manager");
         jobsPage.SEARCH_BUTTON_WEBELEMENT.click();
@@ -75,6 +117,10 @@ public class JobsSearchTest extends UseCaseBase{
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(jobsPage.POSITION_TITLE_XPATH)));
         assertTrue(jobsPage.isSearchResultContainsProvidedText("Google",jobsPage.COMPANY_TITLE_XPATH) && jobsPage.isSearchResultContainsProvidedText("Manager",jobsPage.POSITION_TITLE_XPATH));
         //abracadabra search in the position field
+        homePage.navigateToHomePage();
+        homePage.isComingSoonVisible();
+        jobsPage.navigateToJobsPage();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(jobsPage.LOCATION_FIELD_XPATH)));
         jobsPage.elementSearch("abracadabra",jobsPage.POSITION_FIELD_WEBELEMENT);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(jobsPage.NO_RESULTS_MESSAGE_XPATH)));
         assertTrue(jobsPage.isMessageDisplayed(jobsPage.NO_RESULTS_MESSAGE_WEBELEMENT));

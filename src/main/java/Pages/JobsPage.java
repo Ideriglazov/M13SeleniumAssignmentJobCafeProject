@@ -2,6 +2,7 @@ package Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -68,27 +69,48 @@ public class JobsPage extends BasePage{
         webDriver.get(JOBS_PAGE_URL);
     }
     public void elementSearch(String searchValue,WebElement field){
+        Actions actions = new Actions(webDriver);
+        actions.moveToElement(field).build().perform();
         field.clear();
         field.sendKeys(searchValue);
+        actions.moveToElement(SEARCH_BUTTON_WEBELEMENT).build().perform();
         SEARCH_BUTTON_WEBELEMENT.click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(FOUND_SPAN_XPATH)));
         field.clear();
     }
     public boolean isSearchResultContainsProvidedText(String searchedValue, String xpath){
         searchedValue = searchedValue.toUpperCase();
-        List<WebElement> searchResults = webDriver.findElements(By.xpath(xpath));
-        for( WebElement item : searchResults){
-            String upperCaseItem = item.getText().toUpperCase();
-            if (!upperCaseItem.contains(searchedValue)) {
-                searchResults.remove(upperCaseItem);
+        try {
+            List<WebElement> searchResults = webDriver.findElements(By.xpath(xpath));
+            for( WebElement item : searchResults){
+                String upperCaseItem = item.getText().toUpperCase();
+                if (!upperCaseItem.contains(searchedValue)) {
+                    searchResults.remove(item.getText());
+                }
+            }
+            if (searchResults.size() == 10) {
+                return true;
+            }
+            else {
+                return false;
             }
         }
-        if (searchResults.size() > 0) {
-            return true;
+        catch (org.openqa.selenium.StaleElementReferenceException ex) {
+            List<WebElement> searchResults = webDriver.findElements(By.xpath(xpath));
+            for( WebElement item : searchResults){
+                String upperCaseItem = item.getText().toUpperCase();
+                if (!upperCaseItem.contains(searchedValue)) {
+                    searchResults.remove(item.getText());
+                }
+            }
+            if (searchResults.size() == 10) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
-        else {
-            return false;
-        }
+
     }
 
     public boolean isMessageDisplayed(WebElement element){
